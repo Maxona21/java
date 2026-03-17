@@ -1,0 +1,49 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+import java.io.File;
+
+public class tekst {
+
+    public static String LiczZnakSlowa(){
+        File myFile = new File("teksty.txt");
+        int znaki=0, biale=0, slowa=0;
+        String data="";
+        try (Scanner myRead = new Scanner(myFile)) {
+            while (myRead.hasNextLine()) {
+                data += myRead.nextLine();
+            }
+            System.out.println(data);
+            znaki=data.length();
+            for(int i=0;i<data.length();i++){
+                if (data.charAt(i) == ' '){
+                    slowa++;
+                }
+                if ((int)data.charAt(i) == 27 || (int)data.charAt(i) ==127){
+                    biale++;
+                }
+            }
+        }catch (Exception e){
+            throw new RuntimeException(e);
+
+        }
+    return "Liczba znaków: "+znaki+", slowa: "+slowa+", \nBiałe znaki "+biale;
+    }
+    void main(String[] args) {
+
+        try (FileWriter myWriter = new FileWriter("teksty.txt", true)) {
+            for (int i=0; i<100;i++){
+                int randomNum = (int) ((Math.random()*100)+27);
+                myWriter.write( (char)randomNum );
+            }
+            myWriter.write(System.lineSeparator());
+            System.out.println("udało się zapisać");
+            System.out.println(LiczZnakSlowa());
+        } catch (IOException e) {
+            System.out.println("błąd");
+            e.printStackTrace();
+        }
+
+
+    }
+}
